@@ -8,7 +8,8 @@ typedef struct {
 	char name[16];
 	int age;
 } student;
-char *student_dump(student * s);
+
+void student_dump(student * s);
 
 int main(int argc, char **argv)
 {
@@ -66,7 +67,7 @@ int main(int argc, char **argv)
 	return 0;
 }
 
-char *student_dump(student * s)
+void student_dump(student * s)
 {
 	printf("%s: %d\n", s->name, s->age);
 }
