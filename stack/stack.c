@@ -26,37 +26,37 @@ int stack_destory(stack * s)
 	return 0;
 }
 
-int stack_push(stack * s, void *value)
+int stack_push(stack * s, void *element)
 {
 	if (stack_is_full(s)) {
 		return -1;
 	}
 
 	s->top -= s->esize;
-	memcpy(s->top, value, s->esize);
+	memcpy(s->top, element, s->esize);
 
 	return 0;
 }
 
-int stack_pop(stack * s, void *value)
+int stack_pop(stack * s, void *element)
 {
 	if (stack_is_empty(s)) {
 		return -1;
 	}
 
-	memcpy(value, s->top, s->esize);
+	memcpy(element, s->top, s->esize);
 	s->top += s->esize;
 
 	return 0;
 }
 
-int stack_top(stack * s, void *value)
+int stack_top(stack * s, void *element)
 {
 	if (stack_is_empty(s)) {
 		return -1;
 	}
 
-	memcpy(value, s->top, s->esize);
+	memcpy(element, s->top, s->esize);
 
 	return 0;
 }
