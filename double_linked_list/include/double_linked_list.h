@@ -4,7 +4,7 @@
 struct ddl_info {
 	int size;
 	int esize;
-	int (*equal) (void *v1, void *v2);
+	int (*equal) (void *e1, void *e2);
 };
 
 #define ESIZE(list) (((struct ddl_info *) list->buf)->esize)
@@ -16,8 +16,8 @@ typedef struct ddl_node {
 	unsigned char buf[0];
 } ddl_node;
 
-ddl_node *dll_init(int esize, int (*equal) (void *v1, void *v2));
-ddl_node *dll_insert_head(ddl_node *list, void *value);
-ddl_node *dll_insert_tail(ddl_node *list, void *value);
+ddl_node *dll_init(int esize, int (*equal) (void *e1, void *e2));
+ddl_node *dll_insert_head(ddl_node *list, void *element);
+ddl_node *dll_insert_tail(ddl_node *list, void *element);
 
 #endif

@@ -3,7 +3,7 @@
 
 #include "double_linked_list.h"
 
-ddl_node *ddl_init(int esize, int (*equal) (void *v1, void *v2))
+ddl_node *ddl_init(int esize, int (*equal) (void *e1, void *e2))
 {
 	ddl_node *list;
 
@@ -21,7 +21,7 @@ ddl_node *ddl_init(int esize, int (*equal) (void *v1, void *v2))
 	return list;
 }
 
-ddl_node *ddl_insert_before(ddl_node * list, void *target, void *value)
+ddl_node *ddl_insert_before(ddl_node * list, void *target, void *element)
 {
 	int esize;
 
@@ -47,9 +47,10 @@ ddl_node *ddl_insert_before(ddl_node * list, void *target, void *value)
 				 ESIZE(list))) == NULL) {
 		return NULL;
 	}
-	memcpy(new_node->buf, value, ESIZE(list));
+	memcpy(new_node->buf, element, ESIZE(list));
 
 	new_node->next = this;
+	/* this 是否为第一个节点 */
 	new_node->prev = prev == list ? NULL : prev;
 
 	this->prev = new_node;
@@ -58,7 +59,7 @@ ddl_node *ddl_insert_before(ddl_node * list, void *target, void *value)
 	return new_node;
 }
 
-ddl_node *ddl_insert_after(ddl_node * list, void *target, void *value)
+ddl_node *ddl_insert_after(ddl_node * list, void *target, void *element)
 {
 	int esize;
 
@@ -83,19 +84,19 @@ ddl_node *ddl_insert_after(ddl_node * list, void *target, void *value)
 				 ESIZE(list))) == NULL) {
 		return NULL;
 	}
-	memcpy(new_node->buf, value, ESIZE(list));
+	memcpy(new_node->buf, element, ESIZE(list));
 
 	new_node->prev = this;
 	new_node->next = next;
 
 	this->next = new_node;
-	/* this 是否最后一个元素 */
+	/* this 是否最后一个节点 */
 	(NULL == next ? list : next)->prev = new_node;
 
 	return new_node;
 }
 
-ddl_node *ddl_insert_head(ddl_node * list, void *value)
+ddl_node *ddl_insert_head(ddl_node * list, void *element)
 {
 	ddl_node *new_node;
 
@@ -104,7 +105,7 @@ ddl_node *ddl_insert_head(ddl_node * list, void *value)
 	    NULL) {
 		return NULL;
 	}
-	memcpy(new_node->buf, value, ESIZE(list));
+	memcpy(new_node->buf, element, ESIZE(list));
 
 	new_node->prev = NULL;
 	new_node->next = list->next;
@@ -115,7 +116,7 @@ ddl_node *ddl_insert_head(ddl_node * list, void *value)
 	return 0;
 }
 
-ddl_node *ddl_insert_tail(ddl_node * list, void *value)
+ddl_node *ddl_insert_tail(ddl_node * list, void *element)
 {
 	ddl_node *new_node;
 
@@ -124,7 +125,7 @@ ddl_node *ddl_insert_tail(ddl_node * list, void *value)
 	    NULL) {
 		return NULL;
 	}
-	memcpy(new_node->buf, value, ESIZE(list));
+	memcpy(new_node->buf, element, ESIZE(list));
 
 	new_node->prev = list->prev;
 	new_node->next = NULL;

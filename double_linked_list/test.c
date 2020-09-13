@@ -9,7 +9,7 @@ typedef struct {
 	int age;
 } student;
 
-int student_equal(void *v1, void *v2);
+int student_equal(void *e1, void *v2);
 void student_dump(student * s);
 
 int main(int argc, char **argv)
@@ -36,10 +36,10 @@ void student_dump(student * s)
 	printf("%s\n", s->name);
 }
 
-int student_equal(void *v1, void *v2)
+int student_equal(void *e1, void *e2)
 {
-	student *s1 = (struct student *) v1;
-	student *s2 = (struct student *) v2;
+	student *s1 = (struct student *) e1;
+	student *s2 = (struct student *) e2;
 
 	return !strcmp(s1->name, s2->name);
 }
