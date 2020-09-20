@@ -2,7 +2,6 @@
 #define __DOUBLE_LINKED_LIST_H__
 
 struct ddl_info {
-	int size;
 	int esize;
 	int (*equal) (void *e1, void *e2);
 };
@@ -17,7 +16,12 @@ typedef struct ddl_node {
 } ddl_node;
 
 ddl_node *dll_init(int esize, int (*equal) (void *e1, void *e2));
-ddl_node *dll_insert_head(ddl_node *list, void *element);
-ddl_node *dll_insert_tail(ddl_node *list, void *element);
+ddl_node *ddl_insert_before(ddl_node * list, void *target, void *element);
+ddl_node *ddl_insert_after(ddl_node * list, void *target, void *element);
+ddl_node *ddl_insert_head(ddl_node * list, void *element);
+ddl_node *ddl_insert_tail(ddl_node * list, void *element);
+int ddl_del(ddl_node * list, void *target);
+int ddl_trav(ddl_node * list, int (*visit)(void *element));
+ddl_node *ddl_find(ddl_node * list, void *target);
 
 #endif

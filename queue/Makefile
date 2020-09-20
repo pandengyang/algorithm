@@ -1,5 +1,5 @@
 CC = gcc
-CPPFLAGS = -I./include -I../include
+CPPFLAGS = -I./include
 CFLAGS = -g
 LDFLAGS =
 LIBS=

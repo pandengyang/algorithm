@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "algorithm.h"
 #include "double_linked_list.h"
 
 ddl_node *ddl_init(int esize, int (*equal) (void *e1, void *e2))
@@ -23,13 +24,11 @@ ddl_node *ddl_init(int esize, int (*equal) (void *e1, void *e2))
 
 ddl_node *ddl_insert_before(ddl_node * list, void *target, void *element)
 {
-	int esize;
-
 	ddl_node *prev;
 	ddl_node *this;
 	ddl_node *new_node;
 
-	for (this = list->next; this != NULL;
+	for (this = list->next, prev = list; this != NULL;
 	     prev = this, this = this->next) {
 		if (EQUAL(list) (this->buf, target)) {
 			break;
@@ -51,7 +50,7 @@ ddl_node *ddl_insert_before(ddl_node * list, void *target, void *element)
 
 	new_node->next = this;
 	/* this 是否为第一个节点 */
-	new_node->prev = prev == list ? NULL : prev;
+	new_node->prev = (prev == list ? NULL : prev);
 
 	this->prev = new_node;
 	prev->next = new_node;
@@ -61,13 +60,11 @@ ddl_node *ddl_insert_before(ddl_node * list, void *target, void *element)
 
 ddl_node *ddl_insert_after(ddl_node * list, void *target, void *element)
 {
-	int esize;
-
 	ddl_node *this;
 	ddl_node *next;
 	ddl_node *new_node;
 
-	for (this = list->next; this != NULL;
+	for (this = list->next, next = this->next; this != NULL;
 	     next = this, this = this->next) {
 		if (EQUAL(list) (this->buf, target)) {
 			break;
@@ -113,7 +110,7 @@ ddl_node *ddl_insert_head(ddl_node * list, void *element)
 	list->next = new_node;
 	(list->prev == NULL ? list : new_node->next)->prev = new_node;
 
-	return 0;
+	return new_node;
 }
 
 ddl_node *ddl_insert_tail(ddl_node * list, void *element)
@@ -133,9 +130,56 @@ ddl_node *ddl_insert_tail(ddl_node * list, void *element)
 	list->prev = new_node;
 	(list->next == NULL ? list : new_node->prev)->next = new_node;
 
+	return new_node;
+}
+
+int ddl_del(ddl_node * list, void *target)
+{
+	ddl_node *this;
+
+	for (this = list->next; this != NULL; this = this->next) {
+		if (EQUAL(list) (this->buf, target)) {
+			break;
+		}
+	}
+
+	/* 没有找到 target */
+	if (NULL == this) {
+		return 0;
+	}
+
+	/* this 是否为第一个节点 */
+	(this->prev == NULL ? list : this->prev)->next = this->next;
+	/* this 是否为最后一个节点 */
+	(this->next == NULL ? list : this->next)->prev = this->prev;
+
+	free(this);
+
+	return 1;
+}
+
+int ddl_trav(ddl_node * list, int (*visit) (void *element))
+{
+	ddl_node *this;
+
+	for (this = list->next; this != NULL; this = this->next) {
+		if (STOP_TRAV == visit(this->buf)) {
+			break;
+		}
+	}
+
 	return 0;
 }
 
-ddl_node *ddl_del(ddl_node * list, void *target)
+ddl_node *ddl_find(ddl_node * list, void *target)
 {
+	ddl_node *this;
+
+	for (this = list->next; this != NULL; this = this->next) {
+		if (EQUAL(list) (this->buf, target)) {
+			return this;
+		}
+	}
+
+	return NULL;
 }

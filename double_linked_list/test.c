@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "algorithm.h"
 #include "double_linked_list.h"
 
 typedef struct {
@@ -9,8 +10,8 @@ typedef struct {
 	int age;
 } student;
 
-int student_equal(void *e1, void *v2);
-void student_dump(student * s);
+int student_equal(void *e1, void *e2);
+int student_dump(void *e);
 
 int main(int argc, char **argv)
 {
@@ -20,6 +21,7 @@ int main(int argc, char **argv)
 	student s1 = { "xiaohong", 16 };
 	student s2 = { "xiaoming", 17 };
 	student s3 = { "xiaoyou", 18 };
+	ddl_node *found;
 
 	if ((list = ddl_init(sizeof(student), student_equal)) == NULL) {
 		printf("ddl_init error");
@@ -27,13 +29,55 @@ int main(int argc, char **argv)
 	}
 
 	ddl_insert_head(list, &s1);
+	ddl_trav(list, student_dump);
+	puts("");
+
+	ddl_insert_head(list, &s2);
+	ddl_trav(list, student_dump);
+	puts("");
+
+	ddl_insert_tail(list, &s3);
+	ddl_trav(list, student_dump);
+	puts("");
+
+	ddl_insert_tail(list, &s2);
+	ddl_trav(list, student_dump);
+	puts("");
+
+	ddl_insert_before(list, &s2, &s1);
+	ddl_trav(list, student_dump);
+	puts("");
+
+	ddl_insert_after(list, &s1, &s3);
+	ddl_trav(list, student_dump);
+	puts("");
+
+	ddl_del(list, &s1);
+	ddl_trav(list, student_dump);
+	puts("");
+
+	found = ddl_find(list, &s1);
+	if (found != NULL) {
+		student_dump((void *) (found->buf));
+	} else {
+		puts("found is NULL");
+	}
+	puts("");
 
 	return 0;
 }
 
-void student_dump(student * s)
+int student_dump(void *e)
 {
-	printf("%s\n", s->name);
+	student *s = (struct student *) e;
+
+	printf("--%s--", s->name);
+
+	if (!strcmp(s->name, "xiaohong")) {
+		return STOP_TRAV;
+	}
+
+	return 0;
 }
 
 int student_equal(void *e1, void *e2)
