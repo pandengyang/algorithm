@@ -16,6 +16,7 @@ typedef struct ddl_node {
 } ddl_node;
 
 ddl_node *dll_init(int esize, int (*equal) (void *e1, void *e2));
+int ddl_destroy(ddl_node *list);
 ddl_node *ddl_insert_before(ddl_node * list, void *target, void *element);
 ddl_node *ddl_insert_after(ddl_node * list, void *target, void *element);
 ddl_node *ddl_insert_head(ddl_node * list, void *element);

@@ -20,7 +20,7 @@ queue *queue_init(int size, int esize)
 	return q;
 }
 
-int queue_destory(queue * q)
+int queue_destroy(queue * q)
 {
 	free(q);
 

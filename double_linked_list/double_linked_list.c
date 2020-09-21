@@ -22,6 +22,21 @@ ddl_node *ddl_init(int esize, int (*equal) (void *e1, void *e2))
 	return list;
 }
 
+int ddl_destroy(ddl_node * list)
+{
+	ddl_node *this;
+	ddl_node *next;
+
+	for (this = list->next, next = (this == NULL ? NULL : this->next); this != NULL;
+	     this = next, next = (this == NULL ? NULL : this->next)) {
+		free(this);
+	}
+
+	free(list);
+
+	return 0;
+}
+
 ddl_node *ddl_insert_before(ddl_node * list, void *target, void *element)
 {
 	ddl_node *prev;
@@ -64,8 +79,8 @@ ddl_node *ddl_insert_after(ddl_node * list, void *target, void *element)
 	ddl_node *next;
 	ddl_node *new_node;
 
-	for (this = list->next, next = this->next; this != NULL;
-	     next = this, this = this->next) {
+	for (this = list->next, next = (this == NULL ? NULL : this->next); this != NULL;
+	     this = next, next = (this == NULL ? NULL : this->next)) {
 		if (EQUAL(list) (this->buf, target)) {
 			break;
 		}

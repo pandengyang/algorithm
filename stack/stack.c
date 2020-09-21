@@ -19,7 +19,7 @@ stack *stack_init(int size, int esize)
 	return s;
 }
 
-int stack_destory(stack * s)
+int stack_destroy(stack * s)
 {
 	free(s);
 

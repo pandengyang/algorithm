@@ -10,7 +10,7 @@ typedef struct {
 } queue;
 
 queue *queue_init(int size, int esize);
-int queue_destory(queue * q);
+int queue_destroy(queue * q);
 int queue_in(queue *q, void *element);
 int queue_out(queue *q, void *element);
 int queue_size(queue *q);

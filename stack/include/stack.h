@@ -9,7 +9,7 @@ typedef struct {
 } stack;
 
 stack *stack_init(int size, int esize);
-int stack_destory(stack * s);
+int stack_destroy(stack * s);
 
 int stack_push(stack *s, void *element);
 int stack_pop(stack *s, void *element);

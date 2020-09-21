@@ -30,6 +30,7 @@ int main(int argc, char **argv)
 
 	ret = hash_set(h, "xiaohong", &s1);
 	printf("1. %d\n", ret);
+
 	ret = hash_set(h, "xiaoming", &s2);
 	printf("2. %d\n", ret);
 
@@ -44,15 +45,27 @@ int main(int argc, char **argv)
 	ret = hash_get(h, "xiaozhang", &s4);
 	printf("4. %d\n", ret);
 
-	ret = hash_del(h, "xiaohong");
+	ret = hash_set(h, "xiaoming", &s1);
 	printf("5. %d\n", ret);
 
-	ret = hash_get(h, "xiaohong", &s4);
+	ret = hash_get(h, "xiaoming", &s4);
 	printf("6. %d\n", ret);
+	student_dump(&s4);
+
+	ret = hash_del(h, "xiaohong");
+	printf("7. %d\n", ret);
+
+	ret = hash_del(h, "xiaohong");
+	printf("8. %d\n", ret);
+
+	ret = hash_get(h, "xiaohong", &s4);
+	printf("9. %d\n", ret);
 
 	ret = hash_get(h, "xiaoming", &s4);
-	printf("7. %d\n", ret);
+	printf("10. %d\n", ret);
 	student_dump(&s4);
+
+	hash_destroy(h);
 
 	return 0;
 }

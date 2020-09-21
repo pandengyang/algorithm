@@ -26,10 +26,24 @@ hash *hash_init(int size, int esize)
 	return h;
 }
 
+int hash_destroy(hash *h)
+{
+	for (int i = 0; i < h->size; i++) {
+		if (NULL != h->buf[i]) {
+			ddl_destroy(h->buf[i]);
+		}
+	}
+
+	free(h);
+
+	return 0;
+}
+
 int hash_set(hash * h, char *key, void *value)
 {
 	int index;
-	unsigned char entry[sizeof(char *) + h->esize];
+	ddl_node *node;
+	unsigned char entry[sizeof (entry) + h->esize];
 
 	index = hash_bkdr(key) % h->size;
 	if (NULL == h->buf[index]) {
@@ -40,12 +54,17 @@ int hash_set(hash * h, char *key, void *value)
 		}
 	}
 
-	if (NULL == (*((char **) entry) = malloc(strlen(key) + 1))) {
-		return -1;
+	/* 该 key 已存在 */
+	node = ddl_find(h->buf[index], key);
+	if (NULL != node) {
+		memcpy(node->buf + KEY_LEN, value, h->esize);
+
+		return 0;
 	}
 
-	strcpy(*(char **) entry, key);
-	memcpy(entry + sizeof(char *), value, h->esize);
+	/* 该 key 不存在 */
+	strncpy(entry, key, KEY_LEN);
+	memcpy(entry + KEY_LEN, value, h->esize);
 
 	if (NULL == ddl_insert_head(h->buf[index], entry)) {
 		return -1;
@@ -69,7 +88,7 @@ int hash_get(hash * h, char *key, void *value)
 		return -1;
 	}
 
-	memcpy(value, node->buf + sizeof(char *), h->esize);
+	memcpy(value, node->buf + KEY_LEN, h->esize);
 
 	return 0;
 }
@@ -88,7 +107,6 @@ int hash_del(hash * h, char *key)
 	if (NULL == node) {
 		return -1;
 	}
-	free(*((char **) node->buf));
 
 	return ddl_del(h->buf[index], key);
 }

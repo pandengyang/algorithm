@@ -3,6 +3,8 @@
 
 #include "double_linked_list.h"
 
+#define KEY_LEN 16
+
 typedef struct {
 	int size;
 	int esize;
@@ -10,7 +12,7 @@ typedef struct {
 } hash;
 
 typedef struct {
-	char *key;
+	char key[KEY_LEN];
 	unsigned char buf[0];
 } entry;
 

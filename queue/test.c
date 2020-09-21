@@ -47,7 +47,7 @@ int main(int argc, char **argv)
 	ret = queue_out(q, &element);
 	printf("8. %d\n", ret);
 
-	queue_destory(q);
+	queue_destroy(q);
 
 	return 0;
 }

@@ -62,7 +62,7 @@ int main(int argc, char **argv)
 	ret = stack_top(s, &s1_2);
 	printf("10. %d\n", ret);
 
-	stack_destory(s);
+	stack_destroy(s);
 
 	return 0;
 }

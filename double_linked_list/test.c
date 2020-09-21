@@ -64,6 +64,8 @@ int main(int argc, char **argv)
 	}
 	puts("");
 
+	ddl_destroy(list);
+
 	return 0;
 }
 
@@ -73,9 +75,11 @@ int student_dump(void *e)
 
 	printf("--%s--", s->name);
 
-	if (!strcmp(s->name, "xiaohong")) {
-		return STOP_TRAV;
-	}
+	/*
+	   if (!strcmp(s->name, "xiaohong")) {
+	   return STOP_TRAV;
+	   }
+	 */
 
 	return 0;
 }

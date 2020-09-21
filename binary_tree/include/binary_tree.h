@@ -11,6 +11,6 @@ typedef struct binary_tree_node {
 } binary_tree_node;
 
 binary_tree_node *binary_tree_init(int esize);
-int binary_tree_destory(stack * s);
+int binary_tree_destroy(stack * s);
 
 #endif
